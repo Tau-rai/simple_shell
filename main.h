@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 #include <string.h>
 
-#define BUFF_SIZE 1024
+#define BUFF_SIZE 514
 
 int _strcmp(const char *str1, const char *str2);
 size_t _strlen(const char *str);

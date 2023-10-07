@@ -11,6 +11,7 @@ int main()
 	pid_t pid;
 	char *command;
 	size_t command_size = BUFF_SIZE;
+	ssize_t read_size;
 	char *token;
 	char *args[128];
 	int i = 0, status;
@@ -21,10 +22,11 @@ int main()
 	while (1)
 	{
 		write(STDOUT_FILENO, &cmd, 2);
-		if (getline(&command, &command_size, stdin) == -1)
+		read_size = getline(&command, &command_size, stdin);
+		
+		if (read_size <= 0)
 		{
-			perror("Error: Failled to getline");
-			exit(1);
+			break; /* handle end of file */
 		}
 
 		command[_strlen(command) - 1] = '\0';
