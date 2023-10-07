@@ -1,6 +1,10 @@
 #include "main.h"
 
-#define BUFF_SIZE 1024
+/**
+ * main - entry point
+ *
+ * Return: Always 0 Success.
+ */
 
 int main()
 {
@@ -25,7 +29,12 @@ int main()
 
 		command[_strlen(command) - 1] = '\0';
 
-
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("Error: Failed to fork");
+			exit(1);
+		}
 		else if (pid == 0)
 		{
 			i = 0;
