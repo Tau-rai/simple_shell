@@ -7,12 +7,12 @@
  */
 size_t _strlen(const char *str)
 {
-        const char *s = str;
+	const char *s = str;
 
-        while (*s)
-                s++;
+	while (*s)
+		s++;
 
-        return (s - str);
+	return (s - str);
 }
 
 /**
@@ -21,16 +21,19 @@ size_t _strlen(const char *str)
  * @str2: pointer a string
  * Return: 0 Success.
  */
-int _strcmp(const char *str1, const char *str2) {
-        while (*str1 != '\0' && *str2 != '\0') {
-                if (*str1 != *str2) {
-                        return (*str1 - *str2);
-                }
-                str1++;
-                str2++;
-        }
+int _strcmp(const char *str1, const char *str2)
+{
+	while (*str1 != '\0' && *str2 != '\0')
+	{
+		if (*str1 != *str2)
+		{
+			return (*str1 - *str2);
+		}
+		str1++;
+		str2++;
+	}
 
-        return (*str1 - *str2);
+	return (*str1 - *str2);
 }
 /**
  * _strdup - duplicates a string
@@ -39,40 +42,58 @@ int _strcmp(const char *str1, const char *str2) {
  */
 char *_strdup(const char *src)
 {
-        size_t len;
-        char *dest;
+	size_t len;
+	char *dest;
 
-        if (src == NULL)
-                return (NULL);
+	if (src == NULL)
+		return (NULL);
 
-        len = _strlen(src) + 1;
-        dest = (char *)malloc(len);
+	len = _strlen(src) + 1;
+	dest = (char *)malloc(len);
 
-        if (dest == NULL)
-                return (NULL);
+	if (dest == NULL)
+		return (NULL);
 
-        _strcpy(dest , src);
+	_strcpy(dest, src);
 
-        return (dest);
+	return (dest);
 }
 
 /**
  * _strcpy - copies one string into another
  * @dest: pointer to a string
  * @src: pointer to a source string
- * Return: new string 
+ * Return: new string
  */
 char *_strcpy(char *dest, const char *src)
 {
-        char *new_str = dest;
+	char *new_str = dest;
 
-        while (*src != '\0')
-        {
-                *dest = *src;
-                dest++;
-                src++;
-        }
-        *dest = '\0';
+	while (*src != '\0')
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+	*dest = '\0';
 
-        return (new_str);
+	return (new_str);
+}
+/**
+ * _memcpy - copies a block of memory from src to dest
+ * @dest: pointer to the new string
+ * @src: pointer to the src string
+ * @n: an unsigned int
+ * Return: a pointer to a string
+ */
+void *_memcpy(void *dest, const void *src, size_t n)
+{
+	char *dstr = dest;
+	const char *str = src;
+
+	while (n--)
+	{
+		*dstr++ = *str++;
+	}
+	return (dest);
 }
