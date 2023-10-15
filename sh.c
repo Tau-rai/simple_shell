@@ -2,71 +2,54 @@
 
 /**
  * main - entry point
- *
+ * @argv: array of strings
+ * @argc: number of arguments
  * Return: Always 0 Success.
  */
-
-int main()
+int main(__attribute__((unused))int argc, char *argv[])
 {
-	pid_t pid;
 	char *command;
+	char *stat_arg;
 	size_t command_size = BUFF_SIZE;
-	ssize_t read_size;
-	char *token;
-	char *args[128];
-	int i = 0, status;
 	char cmd[] = "$ ";
+	ssize_t r_size;
 
 	command = (char *)malloc(command_size * sizeof(char));
 
 	while (1)
 	{
-		write(STDOUT_FILENO, &cmd, 2);
-		read_size = getline(&command, &command_size, stdin);
-		
-		if (read_size <= 0)
+		if (isatty(STDIN_FILENO))
 		{
-			break; /* handle end of file */
+			/* only print prompt if input comes from terminal*/
+			write(STDOUT_FILENO, &cmd, 2);
 		}
+		r_size = (ssize_t)_getline(&command, &command_size, stdin);
+
+		if (r_size <= 0)
+			break; /* handle end of file*/
 
 		command[_strlen(command) - 1] = '\0';
 
-		pid = fork();
-		if (pid == -1)
+		if (_strcmp(command, "exit") == 0)
 		{
-			perror("Error: Failed to fork");
-			exit(1);
+			handle_exit(NULL);
 		}
-		else if (pid == 0)
+		else if (_strncmp(command, "exit ", 5) == 0)
 		{
-			i = 0;
-
-			token = strtok(command, " \n");
-			while (token != NULL)
-			{
-				args[i++] = token;
-				token = strtok(NULL, " \n");
-			}
-			args[i] = NULL;
-
-
-			if (execve(args[0], args, NULL) == -1)
-			{
-				perror("Failed to execute");
-				exit(1);
-			}
+			stat_arg = command + 5;
+			handle_exit(stat_arg);
+		}
+		else if (_strcmp(command, "env") == 0)
+		{
+				handle_env(); /* handle env command */
 		}
 		else
-		{
-			if (waitpid(pid, &status, 0) == -1)
-			{
-				perror("waitpid");
-				exit(1);
-			}
-		}
+			fork_cmd(command, argv);
+
+		free(command);  /*free memory before getting next command*/
+		 command = NULL;
+		 command_size = 0;
 	}
-
 	free(command);
-
-	return 0;
+	return (0);
 }
