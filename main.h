@@ -13,8 +13,6 @@
 
 #define BUFF_SIZE 1024
 
-extern char *cmd;
-
 int _strcmp(const char *str1, const char *str2);
 size_t _strlen(const char *str);
 char *_strcpy(char *dest, const char *src);
@@ -58,3 +56,4 @@ void freelist(struct path_node *head);
 struct path_node *add_node(struct path_node **head, char *token);
 struct path_node *add_list(char **env);
 #endif /* MAIN_H */
+
