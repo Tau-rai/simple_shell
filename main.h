@@ -57,6 +57,4 @@ int pop_args(char **args, char *cmd, char *shell_name);
 void freelist(struct path_node *head);
 struct path_node *add_node(struct path_node **head, char *token);
 struct path_node *add_list(char **env);
-void handle_cd(char *cmd, char **env);
-int handle_builtins(char *cmd, char **env, char *shell_name);
 #endif /* MAIN_H */

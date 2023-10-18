@@ -1,6 +1,5 @@
 #include "main.h"
 
-int get_numargs(char *cmdcpy);
 /**
  * check_cmd - starts analysing possible routes of how to execute given command
  * @cmd: command
@@ -16,29 +15,19 @@ int check_cmd(char *cmd, char **env, char *shell_name)
 	char *cmdcpy;
 	struct path_node *head;
 
-	if (handle_builtins(cmd, env, shell_name))
+	if (_strcmp(cmd, "env\n") == 0)
 	{
+		handle_env(env);
 		return (1);
 	}
-
+	if (_strncmp(cmd, "exit", 4) == 0)
+		handle_exit(cmd);
 	cmdcpy = _strdup(cmd);
-	if (cmdcpy == NULL)
-	{
-		perror("Error: Memory allocation failed");
-		return (1);
-	}
 	num_args = get_numargs(cmdcpy);
 	if (num_args != 0)
 	{
 		head = add_list(env);
 		args = malloc(sizeof(char *) * (num_args + 1));
-
-		if (args == NULL)
-		{
-			perror("Error: Failed to allocate memory");
-			free(cmdcpy);
-			return (1);
-		}
 		r = pop_args(args, cmd, shell_name);
 		if (r == -1)
 		{

@@ -19,30 +19,16 @@ void shell_fork(char **args, char **env, char *shell_name, char *path)
 	}
 	pid = fork();
 	if (pid == -1)
-	{
 		perror(shell_name);
-		free(path);
-		free(args);
-		exit(EXIT_FAILURE);
-	}
 	if (pid == 0)
 	{
 		if (execve(path, args, env) == -1)
 			print_error(shell_name, args[0], ": No such file or directory\n");
-		free(path);
-		free(args);
-		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		if (wait(&status) == -1)
-		{
-			perror(shell_name);
-			free(path);
-			free(args);
-			exit(EXIT_FAILURE);
-		}
+		wait(&status);
 		free(path);
-		free(args);
+		free_args(args);
 	}
 }

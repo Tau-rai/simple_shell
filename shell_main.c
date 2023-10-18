@@ -1,4 +1,5 @@
 #include "main.h"
+#include <signal.h>
 
 /**
  * main - responsible for the repetition of a custom shell
@@ -16,7 +17,7 @@ int main(int argc, char **argv, char **envp)
 	int check;
 	char *cmd = malloc(sizeof(char) * length);
 	(void)argc;
-
+	/*signal(SIGINT, handlesignal);*/
 	while (1)
 	{
 		if (isatty(STDIN_FILENO) == 1)
@@ -40,3 +41,15 @@ int main(int argc, char **argv, char **envp)
 	length = 0;
 	return (0);
 }
+
+/**
+ * handlesignal - handles interrupt ctrl-c
+ * @signum: signal number of ctrl-c
+ */
+/*void handlesignal(int signum)
+{
+	(void)signum;
+	if (cmd != NULL)
+		free(cmd);
+	exit(0);
+}*/
