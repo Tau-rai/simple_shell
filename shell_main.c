@@ -1,5 +1,4 @@
 #include "main.h"
-#include <signal.h>
 
 /**
  * main - responsible for the repetition of a custom shell
@@ -13,8 +12,10 @@ int main(int argc, char **argv, char **envp)
 {
 	char *cmdprompt = "$ ";
 	size_t length = BUFF_SIZE;
+	size_t length = BUFF_SIZE;
 	ssize_t r;
 	int check;
+	char *cmd = malloc(sizeof(char) * length);
 	char *cmd = malloc(sizeof(char) * length);
 	(void)argc;
 	/*signal(SIGINT, handlesignal);*/
@@ -23,6 +24,7 @@ int main(int argc, char **argv, char **envp)
 		if (isatty(STDIN_FILENO) == 1)
 			write(STDOUT_FILENO, cmdprompt, 2);
 		r = getline(&cmd, &length, stdin);
+		if (r <= 0)
 		if (r <= 0)
 			break;
 		check = check_cmd(cmd, envp, argv[0]);
@@ -38,6 +40,7 @@ int main(int argc, char **argv, char **envp)
 	if (cmd != NULL)
 		free(cmd);
 	cmd = NULL;
+	length = 0;
 	length = 0;
 	return (0);
 }

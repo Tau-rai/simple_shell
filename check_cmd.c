@@ -1,9 +1,11 @@
 #include "main.h"
 
+int get_numargs(char *cmdcpy);
 /**
  * check_cmd - starts analysing possible routes of how to execute given command
  * @cmd: command
  * @env: the current environment array
+ * @shell_name: the name of the shell
  * @shell_name: the name of the shell
  * Return: return 0 if success, 1 if continue, 2 if break;
  */
@@ -15,7 +17,7 @@ int check_cmd(char *cmd, char **env, char *shell_name)
 	char *cmdcpy;
 	struct path_node *head;
 
-	if (_strcmp(cmd, "env\n") == 0)
+	if (handle_builtins(cmd, env, shell_name))
 	{
 		handle_env(env);
 		return (1);
@@ -23,6 +25,11 @@ int check_cmd(char *cmd, char **env, char *shell_name)
 	if (_strncmp(cmd, "exit", 4) == 0)
 		handle_exit(cmd);
 	cmdcpy = _strdup(cmd);
+	if (cmdcpy == NULL)
+	{
+		perror("Error: Memory allocation failed");
+		return (1);
+	}
 	num_args = get_numargs(cmdcpy);
 	if (num_args != 0)
 	{
@@ -35,7 +42,9 @@ int check_cmd(char *cmd, char **env, char *shell_name)
 			freelist(head);
 			free(cmdcpy);
 			return (1);
+			return (1);
 		}
+		shell_fork(args, env, shell_name, check_path(args[0], head));
 		shell_fork(args, env, shell_name, check_path(args[0], head));
 		freelist(head);
 	}
