@@ -9,7 +9,7 @@ void free_args(char **args)
 
 	if (args == NULL)
 		return;
-	while(args[i])
+	while (args[i])
 	{
 		free(args[i]);
 		args[i] = NULL;

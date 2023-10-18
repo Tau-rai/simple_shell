@@ -41,17 +41,16 @@ char *_strcat(char *dest, const char *src)
 
 /**
  * print_error - prints out the error message
- * @argv: array of strings
- * @args: array of arguments
+ * @name: name of shell
+ * @command: invalid command
  * @message: the error msg
  * Return: Nothing
  */
-
-void print_error(char *argv[], char *args[], char *message)
+void print_error(char *name, char *command, char *message)
 {
-	write(STDERR_FILENO, argv[0], _strlen(argv[0]));
+	write(STDERR_FILENO, name, _strlen(name));
 	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, args[0], _strlen(args[0]));
+	write(STDERR_FILENO, command, _strlen(command));
 	write(STDERR_FILENO, message, _strlen(message));
 }
 /**

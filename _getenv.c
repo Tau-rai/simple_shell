@@ -1,32 +1,30 @@
 #include "main.h"
-
 /**
- * _getenv - gets the environ variable
- * @name: pointer to the environ variable
- * Return: an environ variable
- */
-char *_getenv(const char *name)
+ * _getenv - gets the value of environment variable
+ * @name: the name of the environment variable
+ * @envp: the environment array
+ * Return: the pointer to the environment value
+*/
+char *_getenv(const char *name, char **envp)
 {
-	char **env = environ;
-	char *env_var;
-	const char *env_name;
+	char *key;
+	char **env = envp;
+	char *value;
 
-	while (*env)
+	while (*env != NULL)
 	{
-		env_var = *env;
-		env_name = name;
-		while (*env_var == *env_name && *env_var != '=' && *env_name != '\0')
+		key = malloc(sizeof(char) * (strlen(*env) + 1));
+		if ((strncmp(name, strcpy(key, *env), strlen(name)) == 0)
+&& key[strlen(name)] == '=')
 		{
-			env_var++;
-			env_name++;
+			value = malloc(_strlen(key) - _strlen(name) + 1);
+			_strcpy(value, key + strlen(name) + 1);
+			free(key);
+			return (value);
 		}
-		if (*env_var == '=' && *env_name == '\0')
-		{
-			return (env_var + 1);
-		}
+		free(key);
+		key = NULL;
 		env++;
 	}
 	return (NULL);
 }
-
-

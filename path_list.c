@@ -9,8 +9,10 @@
 struct path_node *add_node(struct path_node **head, char *token)
 {
 	struct path_node *new;
-	char *path = _strcat(token, "/");
+	char *path = malloc(_strlen(token) + _strlen("/") + 1);
 
+	_strcpy(path, token);
+	_strcat(path, "/");
 	new = malloc(sizeof(struct path_node));
 	if (new == NULL)
 		return (NULL);
@@ -23,7 +25,6 @@ struct path_node *add_node(struct path_node **head, char *token)
 /**
  * add_list - creates a linked list from the value of path variable
  * @env: the environment array
- * 
  * Return: returns the address of the head node
  */
 struct path_node *add_list(char **env)
@@ -47,18 +48,20 @@ struct path_node *add_list(char **env)
  * @token: token containing potential command/file
  * @head: head node of a path linked list
  *
- * Returns: the token if the value is a option flag/ path of command else NULL
+ * Return: the token if the value is a option flag/ path of command else NULL
  */
 char *check_path(char *token, const struct path_node *head)
 {
 	char *path;
 	struct stat status;
 
-	if (token[0] == '-')
+	if (_strchr(token, '/'))
 		return (_strdup(token));
 	while (head != NULL)
 	{
-		path = _strcat(head->dir, token);
+		path = malloc(_strlen(head->dir) + _strlen(token) + 1);
+		_strcpy(path, head->dir);
+		_strcat(path, token);
 		if (stat(path, &status) == 0)
 			return (path);
 		free(path);

@@ -5,12 +5,12 @@
  * @str: pointer to a string
  * Return: an integer
 */
-int _atoi(const char *str)
+int _atoi(char *str)
 {
     int sign = 1;
     int num = 0;
 
-    while (*str == ' ' || *str == '\t' || *str == '\n')
+    while (!(*str >= '0' && *str <= '9') || (*str != '-' && *str != '+'))
     {
         str++;
     }
@@ -28,5 +28,6 @@ int _atoi(const char *str)
         num = num * 10 + (*str - '0');
         str++;
     }
+    printf("num is -> %d", num);
     return (sign * num);
 }
