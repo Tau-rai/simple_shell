@@ -3,32 +3,43 @@
  * shell_fork - creates a child process that executes inputted commands
  * @args: an array the stores the inputted commands
  * @env: environment array
- * @shell_name: name of the shell
- * @path: path of command in args[0]
+ * @name: name of the shell
+ * @pth: path of command in args[0]
+ * @n: points to the number of commands
+ * @e: contains exit status
  */
-void shell_fork(char **args, char **env, char *shell_name, char *path)
+void shell_fork(char **args, char **env, char *name, char *pth, int *n, int *e)
 {
 	pid_t pid;
 	int status;
 
-	if (path == NULL)
+	(*n)++;
+	if (pth == NULL)
 	{
-		print_error(shell_name, args[0], ": command not found\n");
+		print_error(name, n, args[0], ": not found\n");
 		free_args(args);
+		*e = 127;
 		return;
 	}
 	pid = fork();
 	if (pid == -1)
-		perror(shell_name);
+		perror(name);
 	if (pid == 0)
 	{
-		if (execve(path, args, env) == -1)
-			print_error(shell_name, args[0], ": No such file or directory\n");
+		if (execve(pth, args, env) == -1)
+		{
+			print_error(name, n, args[0], ": No such file or directory\n");
+			*e = 2;
+		}
+		else
+		{
+			*e = 0;
+		}
 	}
 	else
 	{
 		wait(&status);
-		free(path);
+		free(pth);
 		free_args(args);
 	}
 }
