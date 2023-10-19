@@ -4,12 +4,10 @@
  * check_cmd - starts analysing possible routes of how to execute given command
  * @cmd: command
  * @env: the current environment array
- * @name: the name of the shell
- * @n: points to the number of commands
- * @e: exit startus
+ * @shell_name: the name of the shell
  * Return: return 0 if success, 1 if continue, 2 if break;
  */
-int check_cmd(char *cmd, char **env, char *name, int *n, int *e)
+int check_cmd(char *cmd, char **env, char *shell_name)
 {
 	int num_args;
 	char **args;
@@ -30,7 +28,7 @@ int check_cmd(char *cmd, char **env, char *name, int *n, int *e)
 	{
 		head = add_list(env);
 		args = malloc(sizeof(char *) * (num_args + 1));
-		r = pop_args(args, cmd, name);
+		r = pop_args(args, cmd, shell_name);
 		if (r == -1)
 		{
 			free_args(args);
@@ -38,7 +36,7 @@ int check_cmd(char *cmd, char **env, char *name, int *n, int *e)
 			free(cmdcpy);
 			return (1);
 		}
-		shell_fork(args, env, name, check_path(args[0], head), n, e);
+		shell_fork(args, env, shell_name, check_path(args[0], head));
 		freelist(head);
 	}
 	free(cmdcpy);

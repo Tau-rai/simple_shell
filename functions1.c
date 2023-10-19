@@ -42,20 +42,14 @@ char *_strcat(char *dest, const char *src)
 /**
  * print_error - prints out the error message
  * @name: name of shell
- * @n: points to the number of commands
  * @command: invalid command
  * @message: the error msg
  * Return: Nothing
  */
-void print_error(char *name, int *n, char *command, char *message)
+void print_error(char *name, char *command, char *message)
 {
 	write(STDERR_FILENO, name, _strlen(name));
 	write(STDERR_FILENO, ": ", 2);
-	if (isatty(STDIN_FILENO) != 1)
-	{
-		write_number(*n);
-		write(STDERR_FILENO, ": ", 2);
-	}
 	write(STDERR_FILENO, command, _strlen(command));
 	write(STDERR_FILENO, message, _strlen(message));
 }
