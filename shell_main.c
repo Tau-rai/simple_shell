@@ -16,8 +16,9 @@ int main(int argc, char **argv, char **envp)
 	ssize_t r;
 	int check;
 	char *cmd = malloc(sizeof(char) * length);
+
 	(void)argc;
-	/*signal(SIGINT, handlesignal);*/
+	signal(SIGINT, handlesignal);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO) == 1)
@@ -46,10 +47,8 @@ int main(int argc, char **argv, char **envp)
  * handlesignal - handles interrupt ctrl-c
  * @signum: signal number of ctrl-c
  */
-/*void handlesignal(int signum)
+void handlesignal(int signum)
 {
 	(void)signum;
-	if (cmd != NULL)
-		free(cmd);
 	exit(0);
-}*/
+}
